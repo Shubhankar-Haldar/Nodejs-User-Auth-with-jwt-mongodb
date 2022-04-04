@@ -1,4 +1,3 @@
-const res = require("express/lib/response");
 const jwt = require("jsonwebtoken");
 const SECRET = process.env.SECRET;
 
@@ -37,7 +36,11 @@ class JwtValidation {
       req.id = data.id;
       next();
     } catch (error) {
-      res.status(400).send({ message: "Failed to verify Token", error: true });
+      res.status(400).send({
+        message: "Failed to verify Token",
+        status: 400,
+        error: true,
+      });
     }
   };
 }

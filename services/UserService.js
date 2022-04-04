@@ -134,6 +134,57 @@ class UserService {
       };
     }
   };
+
+  delete = async (id) => {
+    try {
+      const deleteUser = await userModel
+        .findByIdAndDelete({ _id: id })
+        .catch(() => {
+          throw { message: "invalid id", status: 400 };
+        });
+
+      if (!deleteUser) {
+        throw { message: "invalid id", status: 400 };
+      }
+
+      return {
+        message: "delete successfully",
+        status: 200,
+        error: false,
+      };
+    } catch (error) {
+      return {
+        message: error.message,
+        status: error.status ? error.status : 400,
+        error: true,
+      };
+    }
+  };
+
+  findById = async (id) => {
+    try {
+      const findUser = await userModel.findById({ _id: id }).catch(() => {
+        throw { message: "invalid id", status: 400 };
+      });
+
+      if (!findUser) {
+        throw { message: "invalid id ", status: 400 };
+      }
+
+      return {
+        message: "user found successfully",
+        status: 200,
+        error: false,
+        data: findUser,
+      };
+    } catch (error) {
+      return {
+        message: error.message,
+        status: error.status ? error.status : 400,
+        error: true,
+      };
+    }
+  };
 }
 
 module.exports = new UserService();
